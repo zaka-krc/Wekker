@@ -7,8 +7,8 @@ class Program
 {
     static Alarmtype alarmtype = new Alarmtype(dummy);
     static Timer timer = new Timer(Start);
-    static int seconden = 20;
-    static int sluimertijd = 5;
+    static int seconden;
+    static int sluimertijd;
     static int keuze;
 
     static void Main()
@@ -39,10 +39,10 @@ class Program
                             alarmtype += ZendTekst;
                             break;
                         case '2':
-                            alarmtype += MaakLawaai;
+                            alarmtype += Geluid;
                             break;
                         case '3':
-                            alarmtype += KnipperLichten;
+                            alarmtype += Knipperen;
                             break;
                     }
                     break;
@@ -59,17 +59,17 @@ class Program
                             alarmtype -= ZendTekst;
                             break;
                         case '2':
-                            alarmtype -= MaakLawaai;
+                            alarmtype -= Geluid;
                             break;
                         case '3':
-                            alarmtype -= KnipperLichten;
+                            alarmtype -= Knipperen;
                             break;
                     }
                     break;
                 case '3':
                     Console.Write("Na hoeveel seconden gaat de wekker weer af?");
                     sluimertijd = int.Parse(Console.ReadLine());
-                    timer.Change(seconden * 1000, sluimertijd * 1000);
+                    timer.Change(seconden * 1000, sluimertijd * 1000); //*1000 omzetten naar milliseconden
                     break;
                 case '4':
                     Console.Write("Na hoeveel seconden moet het alarm afgaan? ");
@@ -93,15 +93,37 @@ class Program
         Console.WriteLine("Opstaan!!");
     }
 
-    static void MaakLawaai()
+    static void Geluid()
     {
-        Console.Beep();
+        Console.Beep(659, 250); // E5
+        Console.Beep(659, 250); // E5
+        Console.Beep(698, 250); // F5
+        Console.Beep(784, 250); // G5
+        Console.Beep(784, 250); // G5
+        Console.Beep(698, 250); // F5
+        Console.Beep(659, 250); // E5
+        Console.Beep(587, 250); // D5
+        Console.Beep(523, 250); // C5
+        Console.Beep(523, 250); // C5
+        Console.Beep(587, 250); // D5
+        Console.Beep(659, 250); // E5
+        Console.Beep(659, 375); // E5
+        Console.Beep(587, 125); // D5
+        Console.Beep(587, 500); // D5
+        //dit is het Eine kleine Nachtmusik van Mozart
     }
 
-    static void KnipperLichten()
+    static void Knipperen()
     {
-        Console.WriteLine("Knipperen");
+        int cursorTop = Console.CursorTop;
+        for (int i = 0; i < 5; i++)
+        {
+            Console.Write("\rOpstaan!!"); // \r zet cursor terug naar begin van de lijn
+            Thread.Sleep(300);
+            Console.Write("\r         "); // Overschrijf met spaties
+            Thread.Sleep(300);
+        }
     }
 
-    static void dummy() { }
+    static void dummy() { }//dit is een lege methode zodat de delegate altijd iets aanroept
 }
